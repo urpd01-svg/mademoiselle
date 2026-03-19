@@ -267,14 +267,118 @@
         .done-title { font-size: 22px; font-weight: 700; color: var(--btn-bg); margin-bottom: 12px; }
         .done-body { font-size: 14px; color: var(--text2); line-height: 1.8; margin-bottom: 24px; }
         .done-badge {
-            background: #FFF0F5;
-            border: 1px solid #F0C0D0;
+            background: #FFF8EE;
+            border: 1px solid #E8C99A;
             border-radius: 12px;
             padding: 16px 20px;
             font-size: 14px;
-            color: var(--accent);
+            color: var(--btn-bg);
             font-weight: 600;
         }
+        .gift-btn {
+            display: inline-block;
+            margin-top: 14px;
+            padding: 12px 28px;
+            background: var(--btn-bg);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(201,149,108,0.35);
+            transition: background 0.2s, transform 0.1s;
+        }
+        .gift-btn:hover { background: #b5804e; transform: translateY(-1px); }
+
+        /* 이름 입력 모달 */
+        .name-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        .name-modal-overlay.show { display: flex; }
+        .name-modal {
+            background: #fff;
+            border-radius: 20px;
+            padding: 36px 32px 28px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .name-modal-icon { font-size: 40px; margin-bottom: 12px; }
+        .name-modal-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .name-modal-sub {
+            font-size: 12px;
+            color: var(--text2);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .name-modal input[type="text"] {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1.5px solid #E8C99A;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+        .name-modal input[type="text"]:focus { border-color: var(--btn-bg); }
+        .name-modal-err {
+            font-size: 12px;
+            color: #e05a5a;
+            margin-top: 6px;
+            display: none;
+        }
+        .name-modal-err.show { display: block; }
+        .name-modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+        .name-modal-cancel {
+            flex: 1;
+            padding: 12px;
+            border: 1.5px solid #E8C99A;
+            border-radius: 50px;
+            background: #fff;
+            color: var(--btn-bg);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .name-modal-submit {
+            flex: 2;
+            padding: 12px;
+            border: none;
+            border-radius: 50px;
+            background: var(--btn-bg);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 4px 12px rgba(201,149,108,0.3);
+        }
+        .name-modal-submit:hover { background: #b5804e; }
+        .name-modal-done { display: none; }
+        .name-modal-done.show { display: block; }
+        .name-modal-done-icon { font-size: 44px; margin-bottom: 10px; }
+        .name-modal-done-text { font-size: 15px; font-weight: 700; color: var(--btn-bg); }
 
         /* 기타 직접 기재 */
         .etc-input-wrap { margin-top: 8px; display: none; }
@@ -1013,13 +1117,35 @@
             <div class="done-icon">🎉</div>
             <div class="done-title">설문에 참여해주셔서 감사합니다!</div>
             <div class="done-body">
-                여러분의 솔직한 의견이 마드모아젤의<br>더 나은 미래를 만드는 데 큰 도움이 됩니다.<br><br>
-                설문 내용과 이름은 절대 연결되지 않습니다.
+                여러분의 솔직한 의견이 마드모아젤의<br>더 나은 미래를 만드는 데 큰 도움이 됩니다.
             </div>
             <div class="done-badge">
                 🛵 배달의민족 상품권 1만원을 받으시려면<br>
-                아래 별도 링크에서 이름만 입력해주세요.<br><br>
-                <a href="#" id="giftLink" target="_blank" style="color:var(--accent);text-decoration:underline">👉 상품권 수령 링크 클릭</a>
+                아래 버튼을 눌러 이름을 입력해주세요.<br>
+                <button class="gift-btn" onclick="openNameModal()">👉 상품권 수령 신청하기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 이름 입력 모달 -->
+    <div class="name-modal-overlay" id="nameModalOverlay">
+        <div class="name-modal">
+            <!-- 입력 화면 -->
+            <div id="nameModalForm">
+                <div class="name-modal-icon">🎁</div>
+                <div class="name-modal-title">성함을 작성해주세요.</div>
+                <div class="name-modal-sub">설문 내용과 이름은 연결되지 않습니다.</div>
+                <input type="text" id="nameInput" placeholder="이름을 입력해주세요" maxlength="20" />
+                <div class="name-modal-err" id="nameErr">이름을 입력해주세요.</div>
+                <div class="name-modal-actions">
+                    <button class="name-modal-cancel" onclick="closeNameModal()">취소</button>
+                    <button class="name-modal-submit" onclick="submitName()">제출하기 ✓</button>
+                </div>
+            </div>
+            <!-- 완료 화면 -->
+            <div class="name-modal-done" id="nameModalDone">
+                <div class="name-modal-done-icon">✅</div>
+                <div class="name-modal-done-text">신청이 완료되었습니다!<br>감사합니다 😊</div>
             </div>
         </div>
     </div>
@@ -1166,14 +1292,29 @@
 
     // ── 제출 ──
     function submitSurvey() {
-        validateAndGo('sec10', '');
+        // 섹션10 유효성 검사 (goSection 호출 없이)
         const reqs = REQUIRED['sec10'] || [];
-        let ok = reqs.every(id => {
-            const el = document.getElementById('err-' + id);
-            return !el || !el.classList.contains('show');
+        let ok = true;
+        reqs.forEach(id => {
+            const err = document.getElementById('err-' + id);
+            let valid = false;
+            const el = document.getElementById(id);
+            const cbs = document.querySelectorAll(`input[name="${id}"]`);
+            if (cbs.length > 0 && cbs[0].type === 'checkbox') {
+                valid = Array.from(cbs).some(c => c.checked);
+            } else {
+                valid = !!document.querySelector(`input[name="${id}"]:checked`);
+            }
+            if (err) err.classList.toggle('show', !valid);
+            if (!valid) ok = false;
         });
+
         if (!document.querySelector(`input[name="q101"]:checked`)) {
             document.getElementById('err-q101').classList.add('show');
+            ok = false;
+        }
+        if (!ok) {
+            document.querySelector('.err-msg.show')?.scrollIntoView({behavior:'smooth', block:'center'});
             return;
         }
 
@@ -1212,17 +1353,53 @@
             q103b: document.getElementById('q103b').value
         };
 
+        // 제출 버튼 비활성화
+        const submitBtn = document.querySelector('#sec10 .btn-next');
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '제출 중...'; }
+
         // Google Sheets 전송
         const params = new URLSearchParams(payload);
         const url = GOOGLE_SCRIPT_URL + '?' + params.toString();
         fetch(url, { method: 'GET', mode: 'no-cors' })
             .then(() => console.log('✅ 전송 완료'))
-            .catch(err => console.error('전송 오류:', err));
-
-        goSection('sec-done');
+            .catch(err => console.error('전송 오류:', err))
+            .finally(() => goSection('sec-done'));
     }
 
     updateProgress();
+
+    // ── 이름 모달 ──
+    function openNameModal() {
+        document.getElementById('nameModalOverlay').classList.add('show');
+        document.getElementById('nameModalForm').style.display = 'block';
+        document.getElementById('nameModalDone').classList.remove('show');
+        document.getElementById('nameInput').value = '';
+        document.getElementById('nameErr').classList.remove('show');
+        setTimeout(() => document.getElementById('nameInput').focus(), 100);
+    }
+    function closeNameModal() {
+        document.getElementById('nameModalOverlay').classList.remove('show');
+    }
+    function submitName() {
+        const nameVal = document.getElementById('nameInput').value.trim();
+        if (!nameVal) {
+            document.getElementById('nameErr').classList.add('show');
+            return;
+        }
+        document.getElementById('nameErr').classList.remove('show');
+        // Google Sheets에 이름 전송
+        const params = new URLSearchParams({ type: 'name', name: nameVal, timestamp: new Date().toLocaleString('ko-KR') });
+        fetch(GOOGLE_SCRIPT_URL + '?' + params.toString(), { method: 'GET', mode: 'no-cors' })
+            .catch(() => {});
+        // 완료 화면 전환
+        document.getElementById('nameModalForm').style.display = 'none';
+        document.getElementById('nameModalDone').classList.add('show');
+        setTimeout(() => closeNameModal(), 2200);
+    }
+    // 모달 외부 클릭 시 닫기
+    document.getElementById('nameModalOverlay').addEventListener('click', function(e) {
+        if (e.target === this) closeNameModal();
+    });
 </script>
 </body>
 </html>
