@@ -166,13 +166,13 @@
             transition: all 0.2s;
             font-size: 14px;
         }
-        .opt-item:hover { border-color: var(--accent2); background: #FFF8F0; }
-        .opt-item.selected { border-color: var(--accent); background: #FFF0F5; }
+        .opt-item:hover { border-color: var(--btn-bg); background: #FDF6EC; }
+        .opt-item.selected { border-color: var(--btn-bg); background: #FDF0E0; }
         .opt-item input[type="radio"],
         .opt-item input[type="checkbox"] {
             width: 16px; height: 16px;
             margin-top: 1px;
-            accent-color: var(--btn-bg);
+            accent-color: var(--accent);
             flex-shrink: 0;
         }
         .opt-item span { line-height: 1.5; }
@@ -213,7 +213,7 @@
         }
         .grid-table tr:hover td { background: #FDF6F0; }
         .grid-table td:first-child { text-align: left; padding-left: 12px; }
-        .grid-table input[type="radio"] { accent-color: var(--btn-bg); width: 16px; height: 16px; }
+        .grid-table input[type="radio"] { accent-color: var(--accent); width: 16px; height: 16px; }
 
         /* PSM 가격 입력 */
         .psm-group { display: flex; flex-direction: column; gap: 12px; }
