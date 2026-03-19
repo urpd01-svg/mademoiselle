@@ -1156,7 +1156,7 @@
     // ── 현재 섹션 ──
     let currentSection = 'sec-intro';
     const SECTIONS = ['sec-intro','sec0','sec1','sec2','sec3','sec4','sec5','sec6','sec7','sec8','sec9','sec10','sec-done'];
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwiuKtQJ25Icv85fgjvlDay5kCZqwdYyn1D5FpUYeVzeQ0g_Q-NSBsvHxz7IJDrXX2q/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXftrO-MoGOsrwrxrivz7RGDNxJwRf8ABZZiLmnMKjY8z8m5BIXoKSrLOR__h00O7s/exec';
 
     function goSection(id) {
         document.getElementById(currentSection).classList.remove('active');
@@ -1391,7 +1391,7 @@
         document.getElementById('nameModalDone').classList.add('show');
 
         // Google Sheets에 이름 전송 (Image 태그 방식 - CORS 우회)
-        const params = new URLSearchParams({ type: 'name', name: nameVal });
+        const params = new URLSearchParams({ giftname: nameVal });
         const img = new Image();
         img.src = GOOGLE_SCRIPT_URL + '?' + params.toString();
 
